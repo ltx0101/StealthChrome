@@ -4,7 +4,10 @@
 ## StealthChrome – Browse Freely, Stay Invisible. Take control of your privacy.
 This PowerShell script provides an easy-to-use GUI for modifying Google Chrome policies via Windows Registry to enhance Chrome’s functionality.
 
-### Features:
+### Features
+ <details>
+<summary> Click Here </summary>
+
 - **Enable Hardware Acceleration**  
    Uses GPU acceleration to improve performance.
 - **Disable Network Prediction**  
@@ -33,6 +36,7 @@ This PowerShell script provides an easy-to-use GUI for modifying Google Chrome p
    Prevents Chrome from logging and reporting device information, such as network events, system status, app usage, and more.
 - **Set DNS Over HTTPS Mode**  
    Ensures secure DNS queries for private browsing.
+</details>
 
 ---
 
@@ -43,3 +47,17 @@ This PowerShell script provides an easy-to-use GUI for modifying Google Chrome p
 ```ps1
 iwr "https://raw.githubusercontent.com/ltx0101/StealthChrome/main/StealthChrome.ps1" -OutFile "StealthChrome.ps1"; .\StealthChrome.ps1
 ```
+
+---
+
+### Error "Running Scripts is Disabled on this System"
+<details>
+<summary> Click Here </summary>
+
+### Run this command in PowerShell:
+
+```ps1
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+```
+</details>
+
