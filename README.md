@@ -1,5 +1,6 @@
 # Stealth Chrome
-![stealth](https://github.com/user-attachments/assets/3c09bc61-aa3a-40f3-9644-6d6519001a7d)
+<img src="https://github.com/user-attachments/assets/35794d47-f1ab-43d1-a27d-874a05b01906" width="200" height="200">
+
 
 ## Stealth Chrome – Take control of your privacy.
 This PowerShell script provides an easy-to-use GUI for modifying Google Chrome policies via Windows Registry to enhance Chrome’s functionality.
