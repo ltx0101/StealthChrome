@@ -1,7 +1,6 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-# Check for administrative privileges
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Start-Process powershell -ArgumentList "-File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
     exit
@@ -12,9 +11,9 @@ $Host.UI.RawUI.ForegroundColor = "White"
 $Host.UI.RawUI.BackgroundColor = "Black"
 cls
 
-# Define registry path
 $chromePolicies = "HKLM:\SOFTWARE\Policies\Google\Chrome"
 if (!(Test-Path $chromePolicies)) { New-Item -Path $chromePolicies -Force | Out-Null }
+$dnsProvider = "https://cloudflare-dns.com/dns-query"
 
 # Create the main form
 $form = New-Object System.Windows.Forms.Form
@@ -126,7 +125,6 @@ function Optimize-Chrome {
         "ReportWebsiteActivityAllowlist" = 0
         "ReportWebsiteTelemetry" = 0
         "ReportWebsiteTelemetryAllowlist" = 0
-        "DnsOverHttpsMode" = 1
     }
     foreach ($key in $settings.Keys) {
         if (!(Get-ItemProperty -Path $chromePolicies -Name $key -ErrorAction SilentlyContinue)) {
@@ -141,6 +139,8 @@ $text = "Done!"
 for ($i = 0; $i -lt $text.Length; $i++) {
     Write-Host $text[$i] -ForegroundColor $colors[$i % $colors.Length] -NoNewline
 }
+Set-ItemProperty -Path $chromePolicies -Name "DnsOverHttpsMode" -Value "secure" -Type String
+Set-ItemProperty -Path $chromePolicies -Name "DnsOverHttpsTemplates" -Value $dnsProvider -Type String
 }
 
 function Revert-Chrome {
