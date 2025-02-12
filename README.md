@@ -1,5 +1,5 @@
 # Stealth Chrome
-<img src="https://github.com/user-attachments/assets/35794d47-f1ab-43d1-a27d-874a05b01906" width="200" height="200">
+<img src="https://github.com/user-attachments/assets/35794d47-f1ab-43d1-a27d-874a05b01906" width="220" height="220">
 
 
 ## Stealth Chrome – Take control of your privacy.
