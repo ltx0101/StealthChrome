@@ -2,6 +2,8 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Start-Process powershell -ArgumentList "-File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
     exit
 }
+$Host.UI.RawUI.ForegroundColor = "White"
+$Host.UI.RawUI.BackgroundColor = "Black"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
