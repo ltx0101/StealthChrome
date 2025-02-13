@@ -1,24 +1,16 @@
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
-
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Start-Process powershell -ArgumentList "-File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
     exit
 }
-[System.Console]::SetWindowSize(100, 40)
-[System.Console]::BufferWidth = 100
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
 $Host.UI.RawUI.ForegroundColor = "White"
 $Host.UI.RawUI.BackgroundColor = "Black"
-cls
 
-$chromePolicies = "HKLM:\SOFTWARE\Policies\Google\Chrome"
-if (!(Test-Path $chromePolicies)) { New-Item -Path $chromePolicies -Force | Out-Null }
-$dnsProvider = "https://cloudflare-dns.com/dns-query"
-
-# Create the main form
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "                                          Stealth Chrome"
-$form.Size = New-Object System.Drawing.Size(370,200)
+$form.Text = "Stealth Chrome"
+$form.Size = New-Object System.Drawing.Size(400, 750)
 $form.ForeColor = [System.Drawing.Color]::White
 $form.BackColor = [System.Drawing.Color]::FromArgb(255, 25, 25, 25)
 $form.StartPosition = "CenterScreen"
@@ -26,54 +18,44 @@ $form.MaximizeBox = $false
 $form.MinimizeBox = $false
 $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 
-# Create the Optimize button
-$optimizeButton = New-Object System.Windows.Forms.Button
-$optimizeButton.Text = "Optimize Chrome"
-$optimizeButton.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-$optimizeButton.Size = New-Object System.Drawing.Size(100, 40)
-$optimizeButton.Location = New-Object System.Drawing.Point(50, 60)
-$optimizeButton.Add_Click({ Optimize-Chrome })
-$form.Controls.Add($optimizeButton)
-$optimizeButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-$optimizeButton.FlatAppearance.BorderSize = 0
-$optimizeButton.FlatAppearance.BorderColor = [System.Drawing.Color]::Black
-$optimizeButton.BackColor = [System.Drawing.Color]::FromArgb(150, 102, 102, 102)
-$optimizeButton.ForeColor = [System.Drawing.Color]::Black
-$toolTip = New-Object System.Windows.Forms.ToolTip
-$toolTip.SetToolTip($optimizeButton, "Apply recommended Chrome privacy settings.")
+$chromePoliciesPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
 
-# Create the Revert button
-$revertButton = New-Object System.Windows.Forms.Button
-$revertButton.Text = "Revert Changes"
-$revertButton.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-$revertButton.Size = New-Object System.Drawing.Size(100, 40)
-$revertButton.Location = New-Object System.Drawing.Point(200, 60)
-$revertButton.Add_Click({ Revert-Chrome })
-$form.Controls.Add($revertButton)
-$revertButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-$revertButton.FlatAppearance.BorderSize = 0
-$revertButton.FlatAppearance.BorderColor = [System.Drawing.Color]::Black
-$revertButton.BackColor = [System.Drawing.Color]::FromArgb(150, 102, 102, 102)
-$revertButton.ForeColor = [System.Drawing.Color]::Black
-$toolTip = New-Object System.Windows.Forms.ToolTip
-$toolTip.SetToolTip($revertButton, "Revert Chrome settings back to default.")
-
-
-function Optimize-Chrome {
-    $settings = @{
+#General Policies
+$generalPolicies = @{
+        "SyncDisabled" = 1
+        "SigninAllowed" = 0
         "HardwareAccelerationModeEnabled" = 1
         "NetworkPredictionOptions" = 0
         "TabFreezingEnabled" = 0
         "MemorySaverModeSavings" = 0
         "ChromeCleanupEnabled" = 0
+        "PasswordLeakDetectionEnabled" = 0
         "SafeBrowsingEnabled" = 0
         "NTPContentSuggestionsEnabled" = 0
+        "SpellCheckServiceEnabled" = 0
+        "TranslateEnabled" = 0
+        "PasswordManagerEnabled" = 0
+        "AutofillEnabled" = 0
+        "AutofillCreditCardEnabled" = 0
+        "DefaultGeolocationSetting" = 0
+        "SensorsAllowedForUrls" = 0
+        "AudioCaptureAllowed" = 0
+        "VideoCaptureAllowed" = 0
+        "ScreenCaptureAllowed" = 0
+        "SearchSuggestEnabled" = 0
+        "ContextualSearchEnabled" = 0
+        "WebSQLAccess" = 0
+        "ClearBrowsingDataOnExitList" = 1
+        "DnsOverHttpsMode" = 1
+        "HttpsOnlyMode" = 1
+}
+
+#Privacy Policies
+$privacyPolicies = @{
         "MetricsReportingEnabled" = 0
         "UrlKeyedAnonymizedDataCollectionEnabled" = 0
-        "PasswordLeakDetectionEnabled" = 0
         "CloudReportingEnabled" = 0
         "ReportDeviceNetworkEvents" = 0
-        "SafeBrowsingExtendedReportingEnabled" = 0
         "BlockThirdPartyCookies" = 1
         "PerformanceTracingManagerEnabled" = 0
         "EnableDoNotTrack" = 1
@@ -125,49 +107,103 @@ function Optimize-Chrome {
         "ReportWebsiteActivityAllowlist" = 0
         "ReportWebsiteTelemetry" = 0
         "ReportWebsiteTelemetryAllowlist" = 0
-    }
-    foreach ($key in $settings.Keys) {
-        if (!(Get-ItemProperty -Path $chromePolicies -Name $key -ErrorAction SilentlyContinue)) {
-            New-ItemProperty -Path $chromePolicies -Name $key -Value $settings[$key] -PropertyType DWord -Force | Out-Null
-        } else {
-            Set-ItemProperty -Path $chromePolicies -Name $key -Value $settings[$key] -Type DWord
-        }
-    }
-cls
-$colors = @("Red", "Yellow", "Green", "Blue", "White")
-$text = "Done!"
-for ($i = 0; $i -lt $text.Length; $i++) {
-    Write-Host $text[$i] -ForegroundColor $colors[$i % $colors.Length] -NoNewline
-}
-Set-ItemProperty -Path $chromePolicies -Name "DnsOverHttpsMode" -Value "secure" -Type String
-Set-ItemProperty -Path $chromePolicies -Name "DnsOverHttpsTemplates" -Value $dnsProvider -Type String
+        "SafeBrowsingExtendedReportingEnabled" = 0
+        "SafeBrowsingSurveysEnabled" = 0
+        "WebRtcEventLogCollectionAllowed" = 0
+        "PrivacySandboxAdMeasurementEnabled" = 0
+        "PrivacySandboxAdTopicsEnabled" = 0
+        "PrivacySandboxPromptEnabled" = 0
+        "PrivacySandboxSiteEnabledAdsEnabled" = 0
 }
 
-function Revert-Chrome {
-    $keysToRemove = @("HardwareAccelerationModeEnabled",
-"NetworkPredictionOptions","TabFreezingEnabled","MemorySaverModeSavings","ChromeCleanupEnabled","SafeBrowsingEnabled","NTPContentSuggestionsEnabled","MetricsReportingEnabled",
-"UrlKeyedAnonymizedDataCollectionEnabled","PasswordLeakDetectionEnabled","CloudReportingEnabled","ReportDeviceNetworkEvents","SafeBrowsingExtendedReportingEnabled",
-"BlockThirdPartyCookies","PerformanceTracingManagerEnabled","EnableDoNotTrack","DeviceActivityHeartbeatEnabled","DeviceExtensionsSystemLogEnabled",
-"DeviceFlexHwDataForProductImprovementEnabled","DeviceMetricsReportingEnabled","DeviceReportNetworkEvents","DeviceReportRuntimeCounters","DeviceReportXDREvents",
-"EnableDeviceGranularReporting","HeartbeatEnabled","HeartbeatFrequency","LogUploadEnabled","ReportAppInventory","ReportAppUsage",
-"ReportArcStatusEnabled","ReportCRDSessions","ReportDeviceActivityTimes","ReportDeviceAppInfo","ReportDeviceAudioStatus","ReportDeviceBacklightInfo",
-"ReportDeviceBluetoothInfo","ReportDeviceBoardStatus","ReportDeviceBootMode","ReportDeviceCpuInfo","ReportDeviceCrashReportInfo","ReportDeviceFanInfo",
-"ReportDeviceGraphicsStatus","ReportDeviceHardwareStatus","ReportDeviceLoginLogout","ReportDeviceMemoryInfo","ReportDeviceNetworkConfiguration",
-"ReportDeviceNetworkInterfaces","ReportDeviceNetworkStatus","ReportDeviceOsUpdateStatus","ReportDevicePeripherals","ReportDevicePowerStatus","ReportDevicePrintJobs",
-"ReportDeviceSecurityStatus","ReportDeviceSessionStatus","ReportDeviceStorageStatus","ReportDeviceSystemInfo","ReportDeviceTimezoneInfo","ReportDeviceUsers",
-"ReportDeviceVersionInfo","ReportDeviceVpdInfo","ReportUploadFrequency","ReportWebsiteActivityAllowlist","ReportWebsiteTelemetry","ReportWebsiteTelemetryAllowlist","DnsOverHttpsMode")
-    foreach ($key in $keysToRemove) {
-        if (Get-ItemProperty -Path $chromePolicies -Name $key -ErrorAction SilentlyContinue) {
-            Remove-ItemProperty -Path $chromePolicies -Name $key -Force | Out-Null
-        }
-    }
- cls
-$colors = @("Red", "Yellow", "Green", "Blue", "White")
-$text = "Done!"
-for ($i = 0; $i -lt $text.Length; $i++) {
-    Write-Host $text[$i] -ForegroundColor $colors[$i % $colors.Length] -NoNewline
-}
+#Panel for General Policies with ScrollBar
+$scrollPanel = New-Object System.Windows.Forms.Panel
+$scrollPanel.Size = New-Object System.Drawing.Size(350, 480)
+$scrollPanel.Location = New-Object System.Drawing.Point(35, 20)
+$scrollPanel.AutoScroll = $true
+
+
+#GroupBox for General Policies
+$generalGroup = New-Object System.Windows.Forms.GroupBox
+$generalGroup.Text = "General Policies"
+$generalGroup.ForeColor = [System.Drawing.Color]::White
+$generalGroup.Size = New-Object System.Drawing.Size(300, 820)
+$generalGroup.Location = New-Object System.Drawing.Point(0, 0)
+
+$generalCheckboxes = @()
+$y = 30
+foreach ($policy in $generalPolicies.Keys) {
+    $checkbox = New-Object System.Windows.Forms.CheckBox
+    $checkbox.Text = $policy
+    $checkbox.Size = New-Object System.Drawing.Size(250, 30)
+    $checkbox.Location = New-Object System.Drawing.Point(20, $y)
+    $generalGroup.Controls.Add($checkbox)
+    $generalCheckboxes += $checkbox
+    $y += 30
 }
 
-# Show the form
+$scrollPanel.Controls.Add($generalGroup)
+
+#GroupBox for Privacy Policies
+$privacyGroup = New-Object System.Windows.Forms.GroupBox
+$privacyGroup.Text = "Privacy Settings"
+$privacyGroup.ForeColor = [System.Drawing.Color]::White
+$privacyGroup.Size = New-Object System.Drawing.Size(350, 80)
+$privacyGroup.Location = New-Object System.Drawing.Point(20, 550)
+
+$privacyCheckboxes = @()
+$privacyCheckbox = New-Object System.Windows.Forms.CheckBox
+$privacyCheckbox.Text = "Enable All Privacy Settings"
+$privacyCheckbox.Size = New-Object System.Drawing.Size(300, 30)
+$privacyCheckbox.Location = New-Object System.Drawing.Point(20, 30)
+$privacyGroup.Controls.Add($privacyCheckbox)
+$privacyCheckboxes += $privacyCheckbox
+
+# Apply Button for Selected Policies
+$applyButton = New-Object System.Windows.Forms.Button
+$applyButton.Text = "Apply Selected Policies"
+$applyButton.Location = New-Object System.Drawing.Point(40, 650)
+$applyButton.Size = New-Object System.Drawing.Size(140, 40)
+$applyButton.Add_Click({
+    if (!(Test-Path $chromePoliciesPath)) { New-Item -Path $chromePoliciesPath -Force | Out-Null }
+    
+    $selectedGeneralPolicies = $generalCheckboxes | Where-Object { $_.Checked } | ForEach-Object { $_.Text }
+    if ($selectedGeneralPolicies.Count -eq 0) {
+        [System.Windows.Forms.MessageBox]::Show("No general policies selected.", "Warning")
+    } else {
+        foreach ($policy in $selectedGeneralPolicies) {
+            Set-ItemProperty -Path $chromePoliciesPath -Name $policy -Value $generalPolicies[$policy] -Force
+        }
+        [System.Windows.Forms.MessageBox]::Show("General policies applied successfully!", "Success")
+    }
+
+    if ($privacyCheckbox.Checked) {
+        foreach ($policy in $privacyPolicies.Keys) {
+            Set-ItemProperty -Path $chromePoliciesPath -Name $policy -Value $privacyPolicies[$policy] -Force
+        }
+        [System.Windows.Forms.MessageBox]::Show("Privacy policies applied successfully!", "Success")
+    } else {
+        [System.Windows.Forms.MessageBox]::Show("No privacy policies selected.", "Warning")
+    }
+})
+
+# Reset Button
+$resetButton = New-Object System.Windows.Forms.Button
+$resetButton.Text = "Reset to Default"
+$resetButton.Location = New-Object System.Drawing.Point(210, 650)
+$resetButton.Size = New-Object System.Drawing.Size(140, 40)
+$resetButton.Add_Click({
+    if (Test-Path $chromePoliciesPath) {
+        Remove-Item -Path $chromePoliciesPath -Recurse -Force
+        [System.Windows.Forms.MessageBox]::Show("Chrome policies reset to default!", "Success")
+    } else {
+        [System.Windows.Forms.MessageBox]::Show("No policies to reset.", "Info")
+    }
+})
+
+$form.Controls.Add($scrollPanel)
+$form.Controls.Add($privacyGroup)
+$form.Controls.Add($applyButton)
+$form.Controls.Add($resetButton)
+
 $form.ShowDialog()
