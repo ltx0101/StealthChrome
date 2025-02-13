@@ -122,13 +122,13 @@ $scrollPanel.Size = New-Object System.Drawing.Size(350, 480)
 $scrollPanel.Location = New-Object System.Drawing.Point(35, 20)
 $scrollPanel.AutoScroll = $true
 
-
 #GroupBox for General Policies
 $generalGroup = New-Object System.Windows.Forms.GroupBox
 $generalGroup.Text = "General Policies"
 $generalGroup.ForeColor = [System.Drawing.Color]::White
 $generalGroup.Size = New-Object System.Drawing.Size(300, 820)
 $generalGroup.Location = New-Object System.Drawing.Point(0, 0)
+$generalGroup.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 12, [System.Drawing.FontStyle]::Regular)
 
 $generalCheckboxes = @()
 $y = 30
@@ -137,6 +137,8 @@ foreach ($policy in $generalPolicies.Keys) {
     $checkbox.Text = $policy
     $checkbox.Size = New-Object System.Drawing.Size(250, 30)
     $checkbox.Location = New-Object System.Drawing.Point(20, $y)
+    $checkbox.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 10, [System.Drawing.FontStyle]::Regular)
+    $checkbox.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
     $generalGroup.Controls.Add($checkbox)
     $generalCheckboxes += $checkbox
     $y += 30
@@ -150,12 +152,15 @@ $privacyGroup.Text = "Privacy Settings"
 $privacyGroup.ForeColor = [System.Drawing.Color]::White
 $privacyGroup.Size = New-Object System.Drawing.Size(350, 80)
 $privacyGroup.Location = New-Object System.Drawing.Point(20, 550)
+$privacyGroup.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 12, [System.Drawing.FontStyle]::Regular)
 
 $privacyCheckboxes = @()
 $privacyCheckbox = New-Object System.Windows.Forms.CheckBox
 $privacyCheckbox.Text = "Enable All Privacy Settings"
 $privacyCheckbox.Size = New-Object System.Drawing.Size(300, 30)
 $privacyCheckbox.Location = New-Object System.Drawing.Point(20, 30)
+$privacyCheckbox.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 10, [System.Drawing.FontStyle]::Regular)
+$privacyCheckbox.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $privacyGroup.Controls.Add($privacyCheckbox)
 $privacyCheckboxes += $privacyCheckbox
 
@@ -164,6 +169,10 @@ $applyButton = New-Object System.Windows.Forms.Button
 $applyButton.Text = "Apply Selected Policies"
 $applyButton.Location = New-Object System.Drawing.Point(40, 650)
 $applyButton.Size = New-Object System.Drawing.Size(140, 40)
+$applyButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$applyButton.FlatAppearance.BorderColor = [System.Drawing.Color]::Black
+$applyButton.FlatAppearance.BorderSize = 1
+$applyButton.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 9, [System.Drawing.FontStyle]::Regular)
 $applyButton.Add_Click({
     if (!(Test-Path $chromePoliciesPath)) { New-Item -Path $chromePoliciesPath -Force | Out-Null }
     
@@ -192,6 +201,10 @@ $resetButton = New-Object System.Windows.Forms.Button
 $resetButton.Text = "Reset to Default"
 $resetButton.Location = New-Object System.Drawing.Point(210, 650)
 $resetButton.Size = New-Object System.Drawing.Size(140, 40)
+$resetButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
+$resetButton.FlatAppearance.BorderColor = [System.Drawing.Color]::Black
+$resetButton.FlatAppearance.BorderSize = 1
+$resetButton.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 9, [System.Drawing.FontStyle]::Regular)
 $resetButton.Add_Click({
     if (Test-Path $chromePoliciesPath) {
         Remove-Item -Path $chromePoliciesPath -Recurse -Force
