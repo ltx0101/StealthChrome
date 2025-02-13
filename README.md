@@ -79,7 +79,7 @@ This PowerShell script provides an easy-to-use GUI for modifying Google Chrome p
 
 ---
 
-#  How to Run the Script
+# 🚀 How to Run the Script
 
 1. **Open PowerShell and paste the command below**  
 ```ps1
@@ -96,7 +96,7 @@ iwr "https://raw.githubusercontent.com/ltx0101/StealthChrome/main/StealthChrome.
 
 ---
 
-### Error: "Running Scripts is Disabled on this System"  
+### ❗Error: "Running Scripts is Disabled on this System"❗ 
 <details>  
 <summary> Click Here </summary>
 
