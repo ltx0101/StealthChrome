@@ -23,20 +23,15 @@ $chromePoliciesPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
 #General Policies
 $generalPolicies = @{
         "SyncDisabled" = 1
-        "SigninAllowed" = 0
         "HardwareAccelerationModeEnabled" = 1
         "NetworkPredictionOptions" = 0
         "TabFreezingEnabled" = 0
         "MemorySaverModeSavings" = 0
         "ChromeCleanupEnabled" = 0
         "PasswordLeakDetectionEnabled" = 0
-        "SafeBrowsingEnabled" = 0
         "NTPContentSuggestionsEnabled" = 0
         "SpellCheckServiceEnabled" = 0
-        "TranslateEnabled" = 0
         "PasswordManagerEnabled" = 0
-        "AutofillEnabled" = 0
-        "AutofillCreditCardEnabled" = 0
         "DefaultGeolocationSetting" = 0
         "SensorsAllowedForUrls" = 0
         "AudioCaptureAllowed" = 0
@@ -45,13 +40,12 @@ $generalPolicies = @{
         "SearchSuggestEnabled" = 0
         "ContextualSearchEnabled" = 0
         "WebSQLAccess" = 0
-        "ClearBrowsingDataOnExitList" = 1
-        "DnsOverHttpsMode" = 1
-        "HttpsOnlyMode" = 1
 }
 
 #Privacy Policies
 $privacyPolicies = @{
+        "DnsOverHttpsMode" = 1
+        "HttpsOnlyMode" = 1
         "MetricsReportingEnabled" = 0
         "UrlKeyedAnonymizedDataCollectionEnabled" = 0
         "CloudReportingEnabled" = 0
@@ -124,11 +118,11 @@ $scrollPanel.AutoScroll = $true
 
 #GroupBox for General Policies
 $generalGroup = New-Object System.Windows.Forms.GroupBox
-$generalGroup.Text = "General Policies"
+$generalGroup.Text = "General Policies (Disable Chosen)"
 $generalGroup.ForeColor = [System.Drawing.Color]::White
-$generalGroup.Size = New-Object System.Drawing.Size(300, 820)
+$generalGroup.Size = New-Object System.Drawing.Size(300, 580)
 $generalGroup.Location = New-Object System.Drawing.Point(0, 0)
-$generalGroup.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 12, [System.Drawing.FontStyle]::Regular)
+$generalGroup.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 13, [System.Drawing.FontStyle]::Regular)
 
 $generalCheckboxes = @()
 $y = 30
@@ -150,14 +144,14 @@ $scrollPanel.Controls.Add($generalGroup)
 $privacyGroup = New-Object System.Windows.Forms.GroupBox
 $privacyGroup.Text = "Privacy Settings"
 $privacyGroup.ForeColor = [System.Drawing.Color]::White
-$privacyGroup.Size = New-Object System.Drawing.Size(350, 80)
-$privacyGroup.Location = New-Object System.Drawing.Point(20, 550)
-$privacyGroup.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 12, [System.Drawing.FontStyle]::Regular)
+$privacyGroup.Size = New-Object System.Drawing.Size(300, 80)
+$privacyGroup.Location = New-Object System.Drawing.Point(35, 520)
+$privacyGroup.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 13, [System.Drawing.FontStyle]::Regular)
 
 $privacyCheckboxes = @()
 $privacyCheckbox = New-Object System.Windows.Forms.CheckBox
 $privacyCheckbox.Text = "Enable All Privacy Settings"
-$privacyCheckbox.Size = New-Object System.Drawing.Size(300, 30)
+$privacyCheckbox.Size = New-Object System.Drawing.Size(250, 30)
 $privacyCheckbox.Location = New-Object System.Drawing.Point(20, 30)
 $privacyCheckbox.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 10, [System.Drawing.FontStyle]::Regular)
 $privacyCheckbox.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
@@ -167,7 +161,7 @@ $privacyCheckboxes += $privacyCheckbox
 # Apply Button for Selected Policies
 $applyButton = New-Object System.Windows.Forms.Button
 $applyButton.Text = "Apply Selected Policies"
-$applyButton.Location = New-Object System.Drawing.Point(40, 650)
+$applyButton.Location = New-Object System.Drawing.Point(35, 630)
 $applyButton.Size = New-Object System.Drawing.Size(140, 40)
 $applyButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $applyButton.FlatAppearance.BorderColor = [System.Drawing.Color]::Black
@@ -199,8 +193,8 @@ $applyButton.Add_Click({
 # Reset Button
 $resetButton = New-Object System.Windows.Forms.Button
 $resetButton.Text = "Reset to Default"
-$resetButton.Location = New-Object System.Drawing.Point(210, 650)
-$resetButton.Size = New-Object System.Drawing.Size(140, 40)
+$resetButton.Location = New-Object System.Drawing.Point(210, 630)
+$resetButton.Size = New-Object System.Drawing.Size(130, 40)
 $resetButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $resetButton.FlatAppearance.BorderColor = [System.Drawing.Color]::Black
 $resetButton.FlatAppearance.BorderSize = 1
