@@ -1,5 +1,10 @@
+<div align="center">
+
 # Stealth Chrome
 <img src="https://github.com/user-attachments/assets/35794d47-f1ab-43d1-a27d-874a05b01906" width="220" height="220">
+</div>
+
+---
 
 
 ## Stealth Chrome – Take control of your privacy.
