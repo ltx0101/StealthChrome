@@ -26,7 +26,7 @@ $chromePoliciesPath = "HKLM:\SOFTWARE\Policies\Google\Chrome"
 $generalPolicies = @{
         "SyncDisabled" = 1
         "HardwareAccelerationModeEnabled" = 1
-        "NetworkPredictionOptions" = 0
+        "NetworkPredictionOptions" = 2
         "TabFreezingEnabled" = 0
         "MemorySaverModeSavings" = 0
         "ChromeCleanupEnabled" = 0
@@ -42,6 +42,8 @@ $generalPolicies = @{
         "SearchSuggestEnabled" = 0
         "ContextualSearchEnabled" = 0
         "WebSQLAccess" = 0
+        "BlockThirdPartyCookies" = true
+        "BackgroundModeEnabled" = 0
 }
 
 #Privacy Policies
@@ -105,11 +107,16 @@ $privacyPolicies = @{
         "ReportWebsiteTelemetryAllowlist" = 0
         "SafeBrowsingExtendedReportingEnabled" = 0
         "SafeBrowsingSurveysEnabled" = 0
+        "SafeBrowsingEnabled" = 1
+        "SafeBrowsingProtectionLevel" = 1
         "WebRtcEventLogCollectionAllowed" = 0
         "PrivacySandboxAdMeasurementEnabled" = 0
         "PrivacySandboxAdTopicsEnabled" = 0
         "PrivacySandboxPromptEnabled" = 0
         "PrivacySandboxSiteEnabledAdsEnabled" = 0
+        "RemoteAccessHostAllowClientPairing" = 0
+        "RemoteAccessHostFirewallTraversal" = 0
+        "RemoteAccessHostRequireCurtain" = 1
 }
 
 #Panel for General Policies with ScrollBar
