@@ -129,7 +129,7 @@ $scrollPanel.AutoScroll = $true
 $generalGroup = New-Object System.Windows.Forms.GroupBox
 $generalGroup.Text = "General Policies (Disable Chosen)"
 $generalGroup.ForeColor = [System.Drawing.Color]::White
-$generalGroup.Size = New-Object System.Drawing.Size(300, 580)
+$generalGroup.Size = New-Object System.Drawing.Size(300, 640)
 $generalGroup.Location = New-Object System.Drawing.Point(0, 0)
 $generalGroup.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 13, [System.Drawing.FontStyle]::Regular)
 
