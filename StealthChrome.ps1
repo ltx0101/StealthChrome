@@ -42,7 +42,7 @@ $generalPolicies = @{
         "SearchSuggestEnabled" = 0
         "ContextualSearchEnabled" = 0
         "WebSQLAccess" = 0
-        "BlockThirdPartyCookies" = true
+        "BlockThirdPartyCookies" = 1
         "BackgroundModeEnabled" = 0
 }
 
