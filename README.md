@@ -124,3 +124,16 @@ To resolve this, follow these steps:
 ### Privacy and Security
 
 This script is designed to enhance privacy and security by disabling certain tracking and data-collection features of Google Chrome. Use it to lock down Chrome's settings for a more private browsing experience. Be cautious when running this on a shared machine or environment, as it modifies system-wide registry keys.
+
+---
+<div align="center">
+   
+[![PayPal Donate](https://img.shields.io/badge/PayPal_Donate-s?style=for-the-badge&logo=paypal&logoColor=black)](https://paypal.me/AggelosMeta)
+
+</div>
+
+<div align="center">
+  
+Made with ❤️ and PowerShell  
+
+</div>
